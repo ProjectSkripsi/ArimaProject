@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import index from './views/index.vue'
 
+
 Vue.use(Router)
 
 export default new Router({
@@ -17,6 +18,7 @@ export default new Router({
     {
       path: '/login',
       name: 'login',
+      // components: login,
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.

@@ -1,0 +1,68 @@
+const User = require('../models/User')
+const hash = require('../helpers/hash')
+
+module.exports = {
+    signin: (req, res) => {
+        let user = req.body.user
+        let password = req.body.password
+        User.findOne({ user: user })
+        .then(result => {
+            if (hash.decode(password, result.password)) {
+                res.status(200).json({
+                    err: false,
+                    msg: `Succesfully Login`,
+                    token: hash.jwtEncode({
+                        id: result._id,
+                        user: result.user
+                    })
+                })
+            } else {
+                res.status(400).json({
+                    message: "Password is wrong"
+                })
+            }
+        })
+        .catch(err => {
+            res.status(500).json({
+                err: err
+            })
+        })
+    },
+
+    signup: (req, res) => {
+        console.log(req.body.user);
+        let user = req.body.user
+        let password = req.body.password
+        User.find({ user: user })
+        .then(result => {
+            console.log(`then signup`, result);
+            if (result.length === 0) {
+                User.create({
+                        user,
+                        password
+                    })
+                    .then(newUser => {
+                        res.status(201).json({
+                            err: false,
+                            message: `Success to add ${newUser.user}`,
+                            data: newUser,
+                        })
+                    })
+                    .catch(err => {
+                        console.log(err, `ini` );
+                        
+                        res.status(500).json({
+                            message: `Please input name & password incorrect`
+                        })
+                    })
+            } else {
+                res.status(400).json({
+                    message: 'username already registered!'
+                })
+            }
+        })
+        .catch(err => {
+            res.status(500).json(err)
+        })
+    },
+}
