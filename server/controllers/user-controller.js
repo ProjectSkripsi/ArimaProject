@@ -65,4 +65,22 @@ module.exports = {
             res.status(500).json(err)
         })
     },
+
+    getUser : (req, res) =>{
+        User.findById({
+            _id: req.decoded.id
+        })
+        .then(result =>{
+            let user = {
+                user: result.user,
+                _id: result._id,
+                role: result.role
+            }
+            res.status(200).json(user)
+        })
+        .catch(err =>{
+            res.status(500).json(err)
+            console.log(`inii`,err);
+        })
+    }
 }

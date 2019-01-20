@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div >
         <section class="body-sign">
 			<div class="center-sign">
 				<a href="/" class="logo pull-left">
@@ -15,7 +15,7 @@
 							<div class="form-group mb-lg">
 								<label>Username</label>
 								<div class="input-group input-group-icon">
-									<input name="username" type="text" class="form-control input-lg" />
+									<input name="username" type="text" class="form-control input-lg" v-model="user" />
 									<span class="input-group-addon">
 										<span class="icon icon-lg">
 											<i class="fa fa-user"></i>
@@ -30,7 +30,7 @@
 									<a class="pull-right"><router-link to="/recover-password">Lost Password?</router-link></a>
 								</div>
 								<div class="input-group input-group-icon">
-									<input name="pwd" type="password" class="form-control input-lg" />
+									<input name="pwd" type="password" class="form-control input-lg" v-model="password" />
 									<span class="input-group-addon">
 										<span class="icon icon-lg">
 											<i class="fa fa-lock"></i>
@@ -47,8 +47,8 @@
 									</div>
 								</div>
 								<div class="col-sm-4 text-right">
-									<button type="submit" class="btn btn-primary hidden-xs">Sign In</button>
-									<button type="submit" class="btn btn-primary btn-block btn-lg visible-xs mt-lg">Sign In</button>
+									<button type="submit" class="btn btn-primary hidden-xs" @click.prevent="doLogin" >Sign In</button>
+									<button type="submit" class="btn btn-primary btn-block btn-lg visible-xs mt-lg" @click.prevent="doLogin">Sign In</button>
 								</div>
 							</div>
 
@@ -73,10 +73,46 @@
 </template>
 
 <script>
+import {mapActions, mapState} from 'vuex'
+
 export default {
-  name: 'login',
-  
+	name: 'login',
+	data() {
+		return {
+			user: '',
+			password: ''
+		}
+	},
+	computed: {
+		isLoggedIn : function(){ 
+			return this.$store.getters.isLoggedIn
+		}
+	},
+	created() {
+		this.cekLogin()
+	},
+	methods: {
+		doLogin(){
+			let user = this.user 
+			let password = this.password
+			this.$store.dispatch('login', { user, password })
+			.then(() => this.$router.push('/'))
+			.catch(err => console.log(err))
+		},
+		cekLogin() {
+            let token = localStorage.getItem('token')
+            if(token) {
+                this.$router.push('/')
+            } else {
+				this.$router.push('/login')
+			}
+        },
+	},
+
+	
 }
+
+
 </script>
 
 <style>
