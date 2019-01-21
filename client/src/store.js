@@ -146,7 +146,7 @@ export default new Vuex.Store({
 				}
 			})
 			.then(response =>{
-				console.log(`ini agen`, response);
+				// console.log(`ini agen`, response);
 				commit('agentsList', response.data)
 			})
 			.catch(err =>{

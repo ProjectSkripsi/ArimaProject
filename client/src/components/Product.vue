@@ -1,7 +1,7 @@
 <template>
 <div>
-        <!-- start: page modal register agen -->
-    <div class="modal fade" id="addAgen" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <!-- start: page modal register product -->
+    <div class="modal fade" id="addProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="row">
@@ -13,33 +13,39 @@
                                     <!-- <a href="#" class="fa fa-caret-down"></a> -->
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 </div>
-                                <h2 class="panel-title">Registration New Agent</h2>
+                                <h2 class="panel-title">Add New Product</h2>
                             </header>
                             <div class="panel-body">
                                 <section role="main" >
                                     <form class="form-horizontal form-bordered">
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label" for="inputDefault">Nama Agen</label>
+                                            <label class="col-md-3 control-label" >Kode Product</label>
                                             <div class="col-md-6">
-                                                <input type="text" class="form-control" v-model="name" id="inputDefault" placeholder="Masukkan Nama Agen">
+                                                <input type="text" class="form-control" v-model="kodeProduct" id="inputDefault" placeholder="Masukkan Kode Product">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="inputDefault">Nama Product</label>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" v-model="nameProduct" id="inputDefault" placeholder="Masukkan Nama Product">
                                             </div>
                                         </div>
                     
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label" for="inputDefault">No.Telepon</label>
+                                            <label class="col-md-3 control-label" for="inputDefault">Harga</label>
                                             <div class="col-md-6">
-                                                <input class="form-control" id="inputDefault1" v-model="notelp" type="text" placeholder="Masukkan No.Telepon">
+                                                <input class="form-control" id="inputDefault1" v-model="price" type="text" placeholder="Masukkan Harga">
                                             </div>
                                         </div>
                     
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label" for="inputReadOnly">Alamat</label>
+                                            <label class="col-md-3 control-label" for="inputReadOnly">Deskripsi</label>
                                             <div class="col-md-6">
-                                                <textarea class="form-control" rows="3" v-model="address" id="textareaAutosize" data-plugin-textarea-autosize placeholder="Masukkan Alamat Agen"></textarea>
+                                                <textarea class="form-control" rows="3" v-model="description" id="textareaAutosize" data-plugin-textarea-autosize placeholder="Masukkan Deskripsi Product"></textarea>
                                             </div>
                                         </div>
                                         <div class="col text-center">
-                                            <button type="button" class="mb-xs mt-xs mr-xs btn btn-success" data-dismiss="modal" @click="createAgent">Save Agen</button>
+                                            <button type="button" class="mb-xs mt-xs mr-xs btn btn-success" data-dismiss="modal" >Save Product</button>
                                         </div>
                                     </form>
                                 </section>
@@ -53,7 +59,7 @@
     <!-- end: page modal register -->
 
     <!-- Modal Edit Agen -->
-    <div class="modal fade" id="editAgen" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- <div class="modal fade" id="editAgen" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="row">
@@ -61,8 +67,6 @@
                         <section class="panel">
                             <header class="panel-heading">
                                 <div class="panel-actions">
-                                    <!-- <a class="fa fa-times close" data-dismiss="modal"></a> -->
-                                    <!-- <a href="#" class="fa fa-caret-down"></a> -->
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 </div>
                                 <h2 class="panel-title">Update Data Agent</h2>
@@ -101,7 +105,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 <!-- end modal edit agen -->
     <navheader></navheader>
         <div class="inner-wrapper">
@@ -116,27 +120,28 @@
                                 <a href="#" class="fa fa-times"></a>
                             </div>
                     
-                            <h2 class="panel-title">Data Agent</h2>
+                            <h2 class="panel-title">Data Product</h2>
                         </header>
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="mb-md">
-                                        <button data-toggle="modal" data-target="#addAgen" class="btn btn-primary btn-sm">Add <i class="fa fa-plus"></i></button>
+                                        <button data-toggle="modal" data-target="#addProduct" class="btn btn-primary btn-sm">Add <i class="fa fa-plus"></i></button>
                                     </div>
                                 </div>
                             </div>
                             <table class="table table-bordered table-striped mb-none" id="datatable-editable">
                                 <thead>
                                     <tr>
-                                        <th>Nama Agent</th>
-                                        <th>No. Telepon</th>
-                                        <th>Alamat</th>
+                                        <th>Kode Product</th>
+                                        <th>Nama Product</th>
+                                        <th>Harga</th>
+                                        <th>Deskripsi</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody >
-                                    <tr v-for="agent in agents" :key="agent._id" class="gradeA">
+                                    <!-- <tr v-for="agent in agents" :key="agent._id" class="gradeA">
                                         <td>{{ agent.name }}</td>
                                         <td>{{ agent.notelp }}</td>
                                         <td> {{ agent.address }}</td>
@@ -144,7 +149,7 @@
                                             <a href="" @click.prevent="toUpdate(agent)" data-toggle="modal" data-target="#editAgen" > <i class="fas fa-pencil-alt"></i></a>
                                             <a href="" @click.prevent="deleteAgent(agent._id)" > <i class="fas fa-trash-alt"></i></a>
                                         </td>
-                                    </tr>
+                                    </tr> -->
                                 </tbody>
                             </table>
                         </div>
@@ -175,16 +180,16 @@ $(document).ready(function () {
 
 
 export default {
-    name: 'FormAgen',
+    name: 'Product',
     components: {
         bread, sideagent, navheader
     },
     data() {
         return {
-            name: '',
-            notelp: '',
-            address: '',
-            datas: {}
+            nameProduct: '',
+            kodeProduct: '',
+            price: '',
+            description: ''
         }
     },
 
@@ -200,7 +205,6 @@ export default {
 
         toUpdate(payload){
             this.datas = payload
-            // console.log(`iniiii`,this.datas);
         },
 
         saveUpdate(){
@@ -258,6 +262,7 @@ export default {
         this.$store.dispatch('getAgents')
     },
 }
+
 
 
 

@@ -1,6 +1,6 @@
 <template>
     <section class="body">
-        <header class="header">
+        <!-- <header class="header">
             <div class="logo-container">
                 <a href="../" class="logo">
                     <img src="assets/img/pertamina.png" height="35" alt="JSOFT Admin" />
@@ -10,7 +10,7 @@
                 </div>
             </div>
         
-            <!-- start: search & user box -->
+            
             <div class="header-right">
         
                 <form action="pages-search-results.html" class="search nav-form">
@@ -53,12 +53,15 @@
                     </div>
                 </div>
             </div>
+        </header> -->
             <!-- end: search & user box -->
-        </header>
+        <navheader></navheader>
+
 
         <div class="inner-wrapper">
+            <sideagent></sideagent>
             <!-- start: sidebar -->
-            <aside id="sidebar-left" class="sidebar-left">
+            <!-- <aside id="sidebar-left" class="sidebar-left">
             
                 <div class="sidebar-header">
                     <div class="sidebar-title">
@@ -80,9 +83,9 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="add-maps.html">
+                                    <a href="">
                                         <i class="fas fa-warehouse" aria-hidden="true"></i>
-                                        <span>Agent</span>
+                                        <router-link to="/agent"><span>Agent</span></router-link>
                                     </a>
                                 </li>
                                 <li>
@@ -115,11 +118,12 @@
                     </div>
             
                 </div>
-            </aside>
+            </aside> -->
+            
             <!-- end: sidebar -->
-
             <section role="main" class="content-body">
-                <header class="page-header">
+                <bread></bread>
+                <!-- <header class="page-header">
                     <h2>Dashboard</h2>
                 
                     <div class="right-wrapper pull-right">
@@ -134,13 +138,12 @@
                 
                         <a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
                     </div>
-                </header>
+                </header> -->
 
                 <!-- start: page -->
-                <div class="row">
-                    <form-agent></form-agent>
-                    <router-view></router-view>
-                </div>  
+                <!-- <div class="row"> -->
+    
+                <!-- </div>   -->
             </section>   
         </div>
         
@@ -150,24 +153,21 @@
 <script>
 import {mapActions, mapState} from 'vuex'
 import FormAgent from '@/components/Agent.vue'
+import bread from '@/components/breadcrumbs.vue'
+import sideagent from '@/components/sidebar.vue'
+import navheader from '@/components/navheader.vue'
+
 export default {
     name: 'home',
     components: {
-        FormAgent
+        bread, sideagent, navheader
     },
-    computed : {
-    },
+    
     created() {
         this.cekLogin()
     },
 
 	methods: {
-        doLogout: function(){
-            this.$store.dispatch('logout')
-            .then(()=>{
-                this.$router.push('/login')
-            })
-        },
         cekLogin() {
             let token = localStorage.getItem('token')
             if(!token) {
