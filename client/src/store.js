@@ -11,6 +11,8 @@ export default new Vuex.Store({
 		user: {},
 		status: '',
 		token: localStorage.getItem('token') || '',
+		agents: [],
+		msg: ''
 	},
 	mutations: {
 		auth_request(state){
@@ -27,7 +29,13 @@ export default new Vuex.Store({
 		},
 		auth_error(state){
 	    	state.status = 'error'
-	  	},
+		},
+		agentsList(state, payload){
+			state.agents = payload
+		},
+		auth_msg(state, payload){
+			state.msg = ``
+		}
 
 	},
 	actions: {
@@ -72,7 +80,8 @@ export default new Vuex.Store({
 				})
 	            .then(resp => {
 	                const token = resp.data.token
-	                const user = resp.data.user
+					const user = resp.data.user
+					console.log(user, token);
 	                localStorage.setItem('token', token)
 	                axios.defaults.headers.common['Authorization'] = token
 					commit('auth_success', token, user)
@@ -95,6 +104,7 @@ export default new Vuex.Store({
 							icon: "error",
 						});
 					}
+				
 	            })
 	        })
 	    },
@@ -125,7 +135,66 @@ export default new Vuex.Store({
 				delete axios.defaults.headers.common['Authorization']
 				resolve()
 		  	})
+		},
+
+		getAgents({commit}, payload){
+			axios({
+				url: baseUrl + `/api/agent`,
+				method: 'GET',
+				headers: {
+					token: localStorage.getItem('token')
+				}
+			})
+			.then(response =>{
+				console.log(`ini agen`, response);
+				commit('agentsList', response.data)
+			})
+			.catch(err =>{
+				console.log(`data no found`);
+			})
+		},
+
+		addAgent({commit, dispatch}, payload){
+			axios({
+				url: baseUrl+ `/api/agent/add`,
+				method: 'POST',
+				data: {
+					name: payload.name,
+					notelp: payload.notelp,
+					address: payload.address
+				},
+				headers: {
+					token: localStorage.getItem('token')
+				}
+			})
+			.then(response =>{
+				dispatch('getAgents')
+			})
+			.catch(err =>{
+				console.log(err);
+			})
+		},
+
+		updateAgent({commit, dispatch}, payload){
+			console.log(`ini store`,payload.id);
+			
+			axios({
+				url: baseUrl+ `/api/agent/${payload.id}`,
+				method: `PUT`,
+				data: {
+					name: payload.name,
+					notelp: payload.notelp,
+					address: payload.address
+				}
+			})
+			.then(response =>{
+				dispatch('getAgents')
+			})
+			.catch(err =>{
+				console.log(err);
+			})
 		}
+
 	},
 	getters : {
 		isLoggedIn: state => !!state.token,

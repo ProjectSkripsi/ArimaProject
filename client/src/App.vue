@@ -19,11 +19,9 @@ export default {
 	methods: {
 		cekLogin() {
             let token = localStorage.getItem('token')
-            if(token) {
-                this.$router.push('/')
-            } else {
-				this.$router.push('/login')
-			}
+            if(!token) {
+                this.$router.push('/login')
+            } 
         },
 	},
 	mounted() {

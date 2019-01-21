@@ -1,5 +1,8 @@
 <template>
     <div >
+		<div class="alert alert-danger" v-show="msg" role="alert">
+			{{ msg }}
+		</div>
         <section class="body-sign">
 			<div class="center-sign">
 				<a href="/" class="logo pull-left">
@@ -84,6 +87,7 @@ export default {
 		}
 	},
 	computed: {
+		...mapState(['msg']),
 		isLoggedIn : function(){ 
 			return this.$store.getters.isLoggedIn
 		}
@@ -99,6 +103,7 @@ export default {
 			.then(() => this.$router.push('/'))
 			.catch(err => console.log(err))
 		},
+
 		cekLogin() {
             let token = localStorage.getItem('token')
             if(token) {

@@ -11,6 +11,8 @@ module.exports = {
                 res.status(200).json({
                     err: false,
                     msg: `Succesfully Login`,
+                    user: result.user,
+                    role: result.role,
                     token: hash.jwtEncode({
                         id: result._id,
                         user: result.user

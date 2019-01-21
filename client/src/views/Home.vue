@@ -138,6 +138,7 @@
 
                 <!-- start: page -->
                 <div class="row">
+                    <form-agent></form-agent>
                     <router-view></router-view>
                 </div>  
             </section>   
@@ -148,8 +149,12 @@
 
 <script>
 import {mapActions, mapState} from 'vuex'
+import FormAgent from '@/components/Agent.vue'
 export default {
     name: 'home',
+    components: {
+        FormAgent
+    },
     computed : {
     },
     created() {
@@ -165,11 +170,9 @@ export default {
         },
         cekLogin() {
             let token = localStorage.getItem('token')
-            if(token) {
-                this.$router.push('/')
-            } else {
-				this.$router.push('/login')
-			}
+            if(!token) {
+                this.$router.push('/login')
+            } 
         },
 	},
 
