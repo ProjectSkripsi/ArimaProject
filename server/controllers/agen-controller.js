@@ -36,8 +36,6 @@ module.exports = {
 			res.status(200).json(response)
 		})
 		.catch(err =>{
-			console.log(`err`,sadsadsa);
-			
 			res.status(500).json(err)
 		})
 	},

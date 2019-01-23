@@ -32,12 +32,10 @@ module.exports = {
     },
 
     signup: (req, res) => {
-        console.log(req.body.user);
         let user = req.body.user
         let password = req.body.password
         User.find({ user: user })
         .then(result => {
-            console.log(`then signup`, result);
             if (result.length === 0) {
                 User.create({
                         user,
@@ -51,8 +49,6 @@ module.exports = {
                         })
                     })
                     .catch(err => {
-                        console.log(err, `ini` );
-                        
                         res.status(500).json({
                             message: `Please input name & password incorrect`
                         })

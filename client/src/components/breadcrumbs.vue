@@ -1,6 +1,6 @@
 <template>
     <header class="page-header">
-        <h2>Dashboard</h2>
+        <h2>{{ title }}</h2>
     
         <div class="right-wrapper pull-right">
             <ol class="breadcrumbs">
@@ -9,7 +9,7 @@
                         <i class="fa fa-home"></i>
                     </a>
                 </li>
-                <li><a href="/"> <span>Dashboard</span></a></li>
+                <li><a :href="href"> <span>{{ title }}</span></a></li>
             </ol>
     
             <a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
@@ -19,7 +19,8 @@
 
 <script>
 export default {
-    name: 'bread'
+    name: 'bread',
+    props: ['title','href']
 }
 </script>
 

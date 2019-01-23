@@ -32,9 +32,9 @@
                             </a>
                         </li>
                         <li>
-                            <a href="add-maps.html">
+                            <a href="">
                                 <i class="fas fa-dolly-flatbed" aria-hidden="true"></i>
-                                <span>Distribusi</span>
+                                <router-link to="/distribution"><span>Distribusi</span></router-link>
                             </a>
                         </li>
                         <li>
@@ -43,12 +43,12 @@
                                 <span>Analisis</span>
                             </a>
                         </li>
-                        <li>
+                        <!-- <li>
                             <a href="" @click.prevent="doLogout">
                                 <i class="fa fa-sign-out-alt"></i>
                                 <span>Logout</span>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                 </nav>
             </div>

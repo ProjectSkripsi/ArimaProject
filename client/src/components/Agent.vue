@@ -1,6 +1,6 @@
 <template>
 <div>
-        <!-- start: page modal register agen -->
+    <!-- start: page modal register agen -->
     <div class="modal fade" id="addAgen" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -9,8 +9,6 @@
                         <section class="panel">
                             <header class="panel-heading">
                                 <div class="panel-actions">
-                                    <!-- <a class="fa fa-times close" data-dismiss="modal"></a> -->
-                                    <!-- <a href="#" class="fa fa-caret-down"></a> -->
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 </div>
                                 <h2 class="panel-title">Registration New Agent</h2>
@@ -19,21 +17,21 @@
                                 <section role="main" >
                                     <form class="form-horizontal form-bordered">
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label" for="inputDefault">Nama Agen</label>
+                                            <label class="col-md-4 control-label" for="inputDefault">Nama Agen</label>
                                             <div class="col-md-6">
                                                 <input type="text" class="form-control" v-model="name" id="inputDefault" placeholder="Masukkan Nama Agen">
                                             </div>
                                         </div>
                     
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label" for="inputDefault">No.Telepon</label>
+                                            <label class="col-md-4 control-label" for="inputDefault">No.Telepon</label>
                                             <div class="col-md-6">
                                                 <input class="form-control" id="inputDefault1" v-model="notelp" type="text" placeholder="Masukkan No.Telepon">
                                             </div>
                                         </div>
                     
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label" for="inputReadOnly">Alamat</label>
+                                            <label class="col-md-4 control-label" for="inputReadOnly">Alamat</label>
                                             <div class="col-md-6">
                                                 <textarea class="form-control" rows="3" v-model="address" id="textareaAutosize" data-plugin-textarea-autosize placeholder="Masukkan Alamat Agen"></textarea>
                                             </div>
@@ -61,8 +59,6 @@
                         <section class="panel">
                             <header class="panel-heading">
                                 <div class="panel-actions">
-                                    <!-- <a class="fa fa-times close" data-dismiss="modal"></a> -->
-                                    <!-- <a href="#" class="fa fa-caret-down"></a> -->
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 </div>
                                 <h2 class="panel-title">Update Data Agent</h2>
@@ -71,21 +67,21 @@
                                 <section role="main" >
                                     <form class="form-horizontal form-bordered">
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label" for="inputDefault">Nama Agen</label>
+                                            <label class="col-md-4 control-label" for="inputDefault">Nama Agen</label>
                                             <div class="col-md-6">
                                                 <input type="text" class="form-control" v-model="datas.name" id="inputDefault" placeholder="Masukkan Nama Agen">
                                             </div>
                                         </div>
                     
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label" for="inputDefault">No.Telepon</label>
+                                            <label class="col-md-4 control-label" for="inputDefault">No.Telepon</label>
                                             <div class="col-md-6">
                                                 <input class="form-control" id="inputDefault1" v-model="datas.notelp" type="text" placeholder="Masukkan No.Telepon">
                                             </div>
                                         </div>
                     
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label" for="inputReadOnly">Alamat</label>
+                                            <label class="col-md-4 control-label" for="inputReadOnly">Alamat</label>
                                             <div class="col-md-6">
                                                 <textarea class="form-control" rows="3" v-model="datas.address" id="textareaAutosize" data-plugin-textarea-autosize placeholder="Masukkan Alamat Agen"></textarea>
                                             </div>
@@ -103,12 +99,14 @@
         </div>
     </div>
 <!-- end modal edit agen -->
+
     <navheader></navheader>
         <div class="inner-wrapper">
-            <sideagent></sideagent>
+            <sideagent ></sideagent>
             <section role="main" class="content-body">
-                <bread></bread>
-                <section role="main" class="content-body">
+                <bread :title="title" :href="href"></bread>
+                    <div  id="alert"></div>
+                <!-- <section role="main" class="content-body"> -->
                     <section class="panel">
                         <header class="panel-heading">
                             <div class="panel-actions">
@@ -126,7 +124,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <table class="table table-bordered table-striped mb-none" id="datatable-editable">
+                            <table class="table table-bordered table-striped mb-none" id="datatable-default">
                                 <thead>
                                     <tr>
                                         <th>Nama Agent</th>
@@ -149,7 +147,7 @@
                             </table>
                         </div>
                     </section>
-                </section>
+                <!-- </section> -->
             </section>
         </div>
 </div>
@@ -165,14 +163,32 @@ import navheader from '@/components/navheader.vue'
 
 const baseUrl = `http://localhost:3000`
 
-$(document).ready(function () {
-    var dT = $('#datatable-editable').DataTable();
-    dT.destroy();
-    setTimeout(function(){
-        $('#datatable-editable').DataTable();
-    }, 1);
-});
+function success(msg) {
+    $("#alert").append(`
+        <div class="alert alert-success" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <p>Successfully, ${msg}</p>
+        </div>
+    `)
+    setTimeout(() => {
+        $("#alert").text("")
+    }, 2000);
+}
+// $(document).ready(function () {
+//     var dTb = $('#datatable-default').DataTable();
+//     dTb.destroy();
+//     setTimeout(function(){
+//         $('#datatable-default').DataTable();
+//     }, 0);
+    // var dT = $('#datatable-editable').DataTable();
+    // dT.destroy();
+    // setTimeout(function(){
+    //     $('#datatable-editable').DataTable();
+    // }, 0);
 
+// });
 
 export default {
     name: 'FormAgen',
@@ -181,6 +197,8 @@ export default {
     },
     data() {
         return {
+            title: 'Agent',
+            href: 'agent',
             name: '',
             notelp: '',
             address: '',
@@ -193,6 +211,7 @@ export default {
         createAgent(){
             let agent = {name: this.name, notelp: this.notelp, address: this.address}
             this.addAgent(agent)
+            success(`Added ${this.name}`)
             this.name = ''
             this.notelp = ''
             this.address = ''
@@ -211,6 +230,7 @@ export default {
                 address: this.datas.address
             }
             this.updateAgent(data)
+            success(`Update agen ${this.datas.name}`)
         },
 
         deleteAgent(id){

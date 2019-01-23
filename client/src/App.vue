@@ -7,6 +7,9 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 import Home from '@/views/Home.vue'
+
+
+
 export default {
 	computed: {
 		isLoggedIn : function(){
@@ -46,9 +49,9 @@ export default {
 	/* text-align: center; */
 	color: #2c3e50;
 }
-/* #nav {
+#nav {
   	padding: 30px;
-} */
+}
 
 #nav a {
 	font-weight: bold;
@@ -57,5 +60,6 @@ export default {
 
 #nav a.router-link-exact-active {
   	color: #42b983;
+	  /* color: red; */
 }
 </style>

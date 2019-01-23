@@ -12,7 +12,8 @@ export default new Vuex.Store({
 		status: '',
 		token: localStorage.getItem('token') || '',
 		agents: [],
-		msg: ''
+		msg: '',
+		products: []
 	},
 	mutations: {
 		auth_request(state){
@@ -35,7 +36,11 @@ export default new Vuex.Store({
 		},
 		auth_msg(state, payload){
 			state.msg = ``
+		},
+		listProduct(state, payload){
+			state.products = payload
 		}
+
 
 	},
 	actions: {
@@ -176,8 +181,6 @@ export default new Vuex.Store({
 		},
 
 		updateAgent({commit, dispatch}, payload){
-			console.log(`ini store`,payload.id);
-			
 			axios({
 				url: baseUrl+ `/api/agent/${payload.id}`,
 				method: `PUT`,
@@ -193,7 +196,71 @@ export default new Vuex.Store({
 			.catch(err =>{
 				console.log(err);
 			})
-		}
+		},
+
+		updateProduct({commit, dispatch}, payload){
+			axios({
+				url: baseUrl+ `/api/product/${payload.id}`,
+				method: `PUT`,
+				data: {
+					productCode: payload.productCode,
+					productName: payload.productName,
+					price: payload.price,
+					description: payload.description
+				}
+			})
+			.then(response =>{
+				dispatch('getProducts')
+			})
+			.catch(err =>{
+				console.log(err);
+			})
+		},
+
+		getProducts({commit}, payload){
+			axios({
+				url: baseUrl + `/api/product`,
+				method: 'GET',
+				headers: {
+					token: localStorage.getItem('token')
+				}
+			})
+			.then(response =>{
+				// console.log(`iniii`, res);
+				commit('listProduct', response.data)
+			})
+			.catch(err =>{
+				console.log(err);
+			})
+		},
+
+		// addProduct({commit, dispatch}, payload){
+		// 	axios({
+		// 		url: baseUrl + `/api/product`,
+		// 		method: `POST`,
+		// 		data: {
+		// 			productCode: payload.productCode,
+		// 			productName: payload.productName,
+		// 			price: payload.price,
+		// 			description: payload.description
+		// 		},
+		// 		headers: {
+		// 			token: localStorage.getItem('token')
+		// 		}
+		// 	})
+		// 	.then(response =>{
+		// 		dispatch('getProducts')
+		// 	})
+		// 	.catch(err =>{
+		// 		if(err.response.status === 400){
+		// 			swal({
+		// 				title: "Notice",
+		// 				text: "Product already registered, try again!",
+		// 				icon: "error",
+		// 			});
+		// 		}
+		// 	})
+		// }
 
 	},
 	getters : {
