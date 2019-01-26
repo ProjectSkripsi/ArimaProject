@@ -123,6 +123,7 @@
             <!-- end: sidebar -->
             <section role="main" class="content-body">
                 <bread :title="title"></bread>
+                <!-- <invoice></invoice> -->
                 <dashboard></dashboard>
                 <!-- <header class="page-header">
                     <h2>Dashboard</h2>
@@ -158,6 +159,7 @@ import bread from '@/components/breadcrumbs.vue'
 import sideagent from '@/components/sidebar.vue'
 import navheader from '@/components/navheader.vue'
 import dashboard from '@/components/dashboard.vue'
+import invoice from '@/components/NewInvoice.vue'
 
 
 $(document).ready(function () {
@@ -183,7 +185,7 @@ export default {
         }
     },
     components: {
-        bread, sideagent, navheader, dashboard
+        bread, sideagent, navheader, dashboard, invoice
     },
     
     created() {

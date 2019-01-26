@@ -18,5 +18,19 @@ module.exports = {
             console.log(`iniyagng`, err);
             
         })
-    }
+    },
+
+    getAllDist: (req, res) =>{
+        Distribution.find({})
+        .populate('agent')
+        .populate('product')
+        .then(response =>{
+            res.status(200).json(response)
+        })
+        .catch(err =>{
+            res.status(500).json(err)
+        })
+    },
+
+    
 }

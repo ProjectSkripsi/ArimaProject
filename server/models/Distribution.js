@@ -1,25 +1,24 @@
 const moongose = require('mongoose')
 const Schema = moongose.Schema
-const invNum = require('invoice-number')
-// const counter = require('./counter')
-// Create a sequence
-
+const shortid = require('shortid');
 const distributionSchema = new Schema({
     dueDate: {
         type: Date, 
-        // required: true 
+        required: true 
     },
     agent: {
         type: Schema.Types.ObjectId,
         ref: 'Agent'
     },
     invoice: {
-        type: String
+        type: String,
+        unique: true,
+        default: shortid.generate
     },
-    product: {
+    product: [{
         type: Schema.Types.ObjectId,
         ref: 'Product'
-    },
+    }],
     quantity: String,
     subTotal: String,
     deleteAt : {
@@ -30,23 +29,6 @@ const distributionSchema = new Schema({
     timestamps: true
 })
 
-// distributionSchema.pre('save', function(next) {
-//     console.log(`inithis`, counter);
-    
-//     var doc = this;
-//     counter.findOneAndUpdate({
-//         _id: 'distributionId'
-//     }, {
-//         $inc: { 
-//             seq: 1
-//         } 
-//     }, function(error, counter)   {
-//         if(error)
-//         return next(error);
-//         doc.invoice = counter.seq
-//         next();
-//     });
-// });
 
 
 

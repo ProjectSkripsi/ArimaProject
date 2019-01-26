@@ -234,33 +234,7 @@ export default new Vuex.Store({
 			})
 		},
 
-		// addProduct({commit, dispatch}, payload){
-		// 	axios({
-		// 		url: baseUrl + `/api/product`,
-		// 		method: `POST`,
-		// 		data: {
-		// 			productCode: payload.productCode,
-		// 			productName: payload.productName,
-		// 			price: payload.price,
-		// 			description: payload.description
-		// 		},
-		// 		headers: {
-		// 			token: localStorage.getItem('token')
-		// 		}
-		// 	})
-		// 	.then(response =>{
-		// 		dispatch('getProducts')
-		// 	})
-		// 	.catch(err =>{
-		// 		if(err.response.status === 400){
-		// 			swal({
-		// 				title: "Notice",
-		// 				text: "Product already registered, try again!",
-		// 				icon: "error",
-		// 			});
-		// 		}
-		// 	})
-		// }
+		
 
 	},
 	getters : {

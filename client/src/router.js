@@ -2,8 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import store from './store.js'
 import Home from './views/Home.vue'
-import Login from '../src/components/login.vue'
-
+import distribution from '../src/components/Distribution.vue'
+import invoice from '../src/components/NewInvoice.vue'
 
 
 Vue.use(Router)
@@ -61,10 +61,18 @@ let router = new Router({
     {
       path: '/distribution',
       name: 'Distribution',
+      component: distribution,
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Distribution.vue')
+      // component: () => import(/* webpackChunkName: "about" */ './components/Distribution.vue'),
+      // children: [
+      //   {
+      //     path: 'new-invoice',
+      //     name: 'invoice',
+      //     component: invoice
+      //   }
+      // ]
     }
   ]
 })
