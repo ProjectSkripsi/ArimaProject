@@ -124,6 +124,8 @@
     </div>
 </template>
 <script>
+
+
 export default {
     name: 'invoice',
     data() {
@@ -134,8 +136,8 @@ export default {
         }
     },
     created () {
-    this.getQuestion()
-  },
+        this.getQuestion()
+    },
 }
 </script>
 
