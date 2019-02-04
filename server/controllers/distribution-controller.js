@@ -1,16 +1,17 @@
 const Distribution = require('../models/Distribution')
 
 module.exports = {
+
     createDist: (req, res) =>{
         Distribution.create({
-            dueDate: req.body.date,
+            dueDate: req.body.dueDate,
             agent: req.body.agent,
             invoice: req.body.invoice,
-            product: req.body.product,
-            quatity: req.body.quatity,
-            subTotal: req.body.subTotal
+            cart: req.body.cart,
         })
         .then(response =>{
+            console.log(`control`, response);
+            
             res.status(201).json(response)
         })
         .catch(err =>{
@@ -23,7 +24,8 @@ module.exports = {
     getAllDist: (req, res) =>{
         Distribution.find({})
         .populate('agent')
-        .populate('product')
+        .populate('Product')
+        .populate('cart.product')
         .then(response =>{
             res.status(200).json(response)
         })
@@ -32,5 +34,20 @@ module.exports = {
         })
     },
 
+    deleteDist: (req, res) =>{
+		Distribution.deleteOne({
+			_id: req.params.id
+		})
+		.then(response =>{
+			res.status(200).json({
+				msg:`Success Delete`,
+				data: response
+			})
+		})
+		.catch(err =>{
+			res.status(500).json(err)
+		})
+	}
+    
     
 }

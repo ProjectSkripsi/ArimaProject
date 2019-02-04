@@ -70,7 +70,7 @@ a:active {
 
 /* Layout Base - Page Header */
 .page-header {
-	background: #E12525;
+	background: rgb(173, 5, 5);
 	border-bottom: none;
 	border-left: 1px solid #3a3a3a;
 	box-shadow: 1px 3px 0 1px #cccccc;
@@ -81,7 +81,7 @@ a:active {
 
 /* Layout Base - Sidebar Left */
 .sidebar-left {
-	background: #E12525;
+	background: rgb(173, 5, 5);
 	box-shadow: -5px 0 0  rgb(230, 4, 4) inset;
 	color: #777777;
 	display: table-cell;
@@ -1544,7 +1544,7 @@ html.header-dark .header .input-search .input-group-btn .btn-default {
 	right: 0;
 	width: 73px;
 	height: 50px;
-	background-color: rgb(185, 62, 62);
+	background-color: #6d1e1e;
 	border-radius: 0 0 0 5px;
 	text-align: center;
 	cursor: pointer;

@@ -13,7 +13,8 @@ export default new Vuex.Store({
 		token: localStorage.getItem('token') || '',
 		agents: [],
 		msg: '',
-		products: []
+		products: [],
+		invoices: []
 	},
 	mutations: {
 		auth_request(state){
@@ -39,6 +40,9 @@ export default new Vuex.Store({
 		},
 		listProduct(state, payload){
 			state.products = payload
+		},
+		allInvoice(state, payload){
+			state.invoices = payload
 		}
 
 
@@ -234,7 +238,45 @@ export default new Vuex.Store({
 			})
 		},
 
+		addInvoice({commit, dispatch}, payload){
+			console.log(`store`, payload.dueDate.toString());
+			console.log(`store`, payload.dueDate[5]);
+			axios({
+				url: baseUrl +`/api/distribution/`,
+				method: `POST`,
+				data: {
+					dueDate: payload.dueDate,
+					agent: payload.agent,
+					cart: payload.cart,
+				},
+				headers: {
+					token: localStorage.getItem('token')
+				}
+			})
+			.then(response =>{
+				console.log(`berhasil`, response);
+				dispatch('getAllInvoice')
+			})
+			.catch(err =>{
+				console.log(`ini`,err);
+			})
+		},
+
+		getAllInvoice({commit}, payload){
+			axios({
+				url: baseUrl + `/api/distribution/`,
+				method: `GET`,
+				headers: {
+					token: localStorage.getItem('token')
+				}
+			})
+			.then(response =>{
+				commit('allInvoice', response.data)
+			})
+		},
+
 		
+
 
 	},
 	getters : {

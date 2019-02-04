@@ -100,13 +100,12 @@
     </div>
 <!-- end modal edit agen -->
 
-    <navheader></navheader>
+    <navheader/>
         <div class="inner-wrapper">
-            <sideagent ></sideagent>
+            <sideagent></sideagent>
             <section role="main" class="content-body">
                 <bread :title="title" :href="href"></bread>
                     <div  id="alert"></div>
-                <!-- <section role="main" class="content-body"> -->
                     <section class="panel">
                         <header class="panel-heading">
                             <div class="panel-actions">
@@ -124,9 +123,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <table class="table table-bordered table-striped mb-none" id="datatable-default">
+                            <table class="table table-bordered table-striped mb-none" id="datatable-ajax" data-url="http://localhost:3000/api/agent">
                                 <thead>
-                                    <tr>
+                                    <tr class="text-center">
                                         <th>Nama Agent</th>
                                         <th>No. Telepon</th>
                                         <th>Alamat</th>
@@ -138,7 +137,7 @@
                                         <td>{{ agent.name }}</td>
                                         <td>{{ agent.notelp }}</td>
                                         <td> {{ agent.address }}</td>
-                                        <td class="actions">
+                                        <td class="actions text-center">
                                             <a href="" @click.prevent="toUpdate(agent)" data-toggle="modal" data-target="#editAgen" > <i class="fas fa-pencil-alt"></i></a>
                                             <a href="" @click.prevent="deleteAgent(agent._id)" > <i class="fas fa-trash-alt"></i></a>
                                         </td>
@@ -147,7 +146,6 @@
                             </table>
                         </div>
                     </section>
-                <!-- </section> -->
             </section>
         </div>
 </div>
@@ -176,19 +174,7 @@ function success(msg) {
         $("#alert").text("")
     }, 2000);
 }
-// $(document).ready(function () {
-//     var dTb = $('#datatable-default').DataTable();
-//     dTb.destroy();
-//     setTimeout(function(){
-//         $('#datatable-default').DataTable();
-//     }, 0);
-    // var dT = $('#datatable-editable').DataTable();
-    // dT.destroy();
-    // setTimeout(function(){
-    //     $('#datatable-editable').DataTable();
-    // }, 0);
 
-// });
 
 export default {
     name: 'FormAgen',
@@ -274,7 +260,6 @@ export default {
     },
     
     created() {
-        
         this.$store.dispatch('getAgents')
     },
 }

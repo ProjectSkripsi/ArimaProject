@@ -86,11 +86,11 @@ a:active,
 }
 /* Sign Screens - Wrappers */
 .body-sign .panel-sign .panel-title-sign .title {
-	background-color: #E12525;
+	background-color: #0088cc;
 }
 
 .body-sign .panel-sign .panel-body {
-	border-top-color:  #E12525;
+	border-top-color: #0088cc;
 }
 /* Lock Screen */
 .body-locked .current-user .user-image {

@@ -136,7 +136,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <table class="table table-bordered table-striped mb-none" id="datatable-editable">
+                            <table class="table table-bordered table-striped mb-none" id="datatable-ajax">
                                 <thead>
                                     <tr>
                                         <th>Kode Product</th>
@@ -152,7 +152,7 @@
                                         <td>{{ product.productName }}</td>
                                         <td>{{ toIdr(product.price) }}</td>
                                         <td> {{ product.description }}</td>
-                                        <td class="actions">
+                                        <td class="actions text-center">
                                             <a href="" @click.prevent="editProduct(product)" data-toggle="modal" data-target="#editProduct" > <i class="fas fa-pencil-alt"></i></a>
                                             <a href="" @click.prevent="deleteProduct(product._id)" > <i class="fas fa-trash-alt"></i></a>
                                         </td>
@@ -182,7 +182,7 @@ function success(msg) {
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
-            <p><h4>Successfully, ${msg} 👍🏻 </h4></p>
+            <p>Successfully, ${msg} 👍🏻 </p>
         </div>
     `)
     setTimeout(() => {

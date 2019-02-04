@@ -22,7 +22,7 @@
 														<span class="input-group-addon">
 															<i class="fa fa-calendar"></i>
 														</span>
-														<input class="form-control" type="date" v-model="dueDate" id="example-date-input">
+														<input class="form-control" type="date" v-model="dueDate" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}" id="example-date-input">
 													</div>
 												</div>
 											</div>
@@ -34,12 +34,13 @@
 													</select>
 												</div>
 											</div>
-                                            <table class="table table-bordered table-striped mb-none" >
+                                            <table class="table table-bordered table-striped mb-none" id="datatable-editable">
                                                 <thead>
                                                     <tr>
                                                         <th>Product Name</th>
                                                         <th width="15%">Quantity</th>
-                                                        <th width="20%">Action</th>
+                                                        <th width="25%">Price</th>
+                                                        <th width="15%">Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -50,18 +51,28 @@
                                                             </select>
                                                         </td>
                                                         <td>
-                                                            <input type="number" min="1" class="form-control" v-model="row.quantity">
+                                                            <input type="number" min="1" class="form-control" v-model="row.quantity"> 
                                                         </td>
-                                                        <td scope="row" class="trashIconContainer">
+                                                        <td>
+                                                            <h5>arul</h5> 
+                                                        </td>
+                                                        <td scope="row" >
                                                             <i class="far fa-trash-alt" @click="deleteRow(k, row)"></i>
                                                         </td>
                                                     </tr>
                                                 </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td colspan="2"></td>
+                                                        <td><strong>TOTAL: </strong></td>
+                                                        <td><strong></strong></td>
+                                                    </tr>
+                                                </tfoot>
                                             </table>
                                             <br>
                                             <div class="col text-center">
-                                                <button class="btn btn-primary fa fa-plus" @click.prevent="add()"></button>
-                                                <button type="button" class="mb-xs mt-xs mr-xs btn btn-success" @click="save">Save</button>
+                                                <button class="btn btn-primary fa fa-plus" @click.prevent="add()"></button> &nbsp; &nbsp;
+                                                <button type="button" data-dismiss="modal" class="mb-xs mt-xs mr-xs btn btn-success" @click.prevent="save">Save</button>
                                             </div>
                                         </form>
                                         
@@ -92,46 +103,38 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="mb-md">
-                                    <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addInvoice"> New invoice <i class="fas fa-file-invoice"></i></button>
+                                    <button class="btn btn-primary btn-sm" data-toggle="modal" data data-target="#addInvoice"> New invoice <i class="fas fa-file-invoice"></i></button>
                                 </div>
                             </div>
                         </div>
-                        <table class="table table-bordered table-striped mb-none" id="datatable-default">
+                        <table class="table table-bordered table-striped" id="datatable-ajax" data-url="assets/ajax/ajax-datatables-sample.json">
+                        <!-- <table class="table table-bordered table-striped mb-none" id="datatable-default"> -->
                             <thead>
                                 <tr>
-                                    <th>No. Invoice</th>
-                                    <th>Agent</th>
+                                    <th>Invoice ID</th>
                                     <th>Issue Date</th>
-                                    <th>Product</th>
-                                    <th>Jumlah</th>
-                                    <th>Total</th>
-                                    <th>Action</th>
+                                    <th>Invoice Date</th>
+                                    <th>Agent</th>
+                                    <th>Total Item</th>
+                                    <th>Total Transaction</th>
+                                    <th class="text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody >
-                                <tr>
-                                    <td>Kode Product</td>
-                                    <td>Nama Product</td>
-                                    <td>Harga</td>
-                                    <td>Deskripsi</td>
+                                <tr v-for="invoice in invoices" :key="invoice._id">
+                                    <td>{{ invoice.invoice }}</td>
+                                    <td>{{ formatDate(invoice.createdAt) }}</td>
+                                    <td>{{ formatDate(invoice.dueDate) }} </td>
+                                    <td>{{ invoice.agent.name }}</td>
+                                    <td class="text-center">{{ invoice.cart.length }}</td>
                                     <td>Actions</td>
-                                    <td>Total</td>
-                                    <td class="actions">
-                                        <a href="#"> <i class="fas fa-eye"></i> </a>
+                                    <td class="actions text-center">
+                                        <a href="#"><router-link :to="{ name: 'invoice', params: { id: invoice._id }}"> <i class="fas fa-eye"></i></router-link> </a>
                                         <a href="#"><i class="fas fa-edit"></i> </a>
-                                        <a href="#"><i class="fas fa-trash-alt"></i></a>
+                                        <a href="#" @click.prevent="deleteInvoice(invoice._id)"><i class="fas fa-trash-alt"></i></a>
                                     </td>
                                 </tr>
-                                <!-- <tr v-for="product in products" :key="product._id" class="gradeA">
-                                    <td>{{ product.productCode }}</td>
-                                    <td>{{ product.productName }}</td>
-                                    <td>{{ toIdr(product.price) }}</td>
-                                    <td> {{ product.description }}</td>
-                                    <td class="actions">
-                                        <a href="" @click.prevent="editProduct(product)" data-toggle="modal" data-target="#editProduct" > <i class="fas fa-pencil-alt"></i></a>
-                                        <a href="" @click.prevent="deleteProduct(product._id)" > <i class="fas fa-trash-alt"></i></a>
-                                    </td>
-                                </tr> -->
+                                
                             </tbody>
                         </table>
                         
@@ -148,12 +151,26 @@ import {mapActions, mapState} from 'vuex'
 import bread from '@/components/breadcrumbs.vue'
 import sideagent from '@/components/sidebar.vue'
 import navheader from '@/components/navheader.vue'
-// import invoice from '@/components/NewInvoice.vue'
-
+import axios from 'axios'
+const baseUrl = `http://localhost:3000`
 const newRowGen = () => ({
     product: '',
     quantity: ''
 })
+
+function success(msg) {
+    $("#alert").append(`
+        <div class="alert alert-success" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <p>Successfully, ${msg}</p>
+        </div>
+    `)
+    setTimeout(() => {
+        $("#alert").text("")
+    }, 2000);
+}
 
 export default {
     name: 'Distribution',
@@ -174,11 +191,10 @@ export default {
             agent: '',
             docs : {},
             newRow: newRowGen(),
-            invoices : []
         }
     },
     computed: {
-        ...mapState(['agents', 'products']),
+        ...mapState(['agents', 'products', 'invoices']),
     },
     methods: {
         ...mapActions(['addInvoice']),
@@ -191,18 +207,78 @@ export default {
         },
 
         save(){
-            
-            console.log(JSON.stringify(this.data))
+            let invoice = {
+                dueDate: this.dueDate,
+                agent: this.agent,
+                cart: this.data
+            }
+            this.addInvoice(invoice)
+            this.dueDate = ''
+            this.agent = ''
+            this.cart = ''
+            success(`Add new Invoice`)
         },
         
         deleteRow(index, row) {
             var idx = this.data.indexOf(row);
-            console.log(idx, index);
+            // console.log(idx, index);
             if (idx > -1) {
                 this.data.splice(idx, 1);
             }
             
         },
+
+        formatDate(tgl) {
+            var monthNames = [
+                "January", "February", "March",
+                "April", "May", "June", "July",
+                "August", "September", "October",
+                "November", "December"
+            ];
+            var year = tgl.substring(0, 4)
+            var monthIndex = tgl.substring(5, 6)
+            var day = tgl.substring(8, 10)
+            return day + '-' + monthNames[monthIndex] + '-' + year;
+        },
+
+        deleteInvoice(id){
+            swal({
+                title: "Are you sure!",
+                text: "remove this Invoice?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then(willDelete => {
+                if (willDelete) {
+                    axios({
+                        url: baseUrl + `/api/distribution/${id}`,
+                        method: 'DELETE',
+                        headers: {
+                            token: localStorage.getItem('token')
+                        }
+                    })
+                    .then(response =>{
+                        this.$store.dispatch('getAllInvoice')
+                        swal("Invoice has been removed!", {
+                            icon: "success",
+                        })
+                    })
+                    .catch(err =>{
+                        console.log(err);
+                    })
+                } else {
+                    swal(`Data is safe!`);
+                }
+            })
+            .catch(err =>{
+                console.log(err);
+            })   
+        }
+
+
+
+
     },
                 
 
@@ -213,6 +289,7 @@ export default {
     created() {
         this.$store.dispatch('getAgents')
         this.$store.dispatch('getProducts')
+        this.$store.dispatch('getAllInvoice')
     },
 }
 </script>

@@ -1,10 +1,11 @@
 const moongose = require('mongoose')
 const Schema = moongose.Schema
 const shortid = require('shortid');
+
 const distributionSchema = new Schema({
     dueDate: {
         type: Date, 
-        required: true 
+        // required: true 
     },
     agent: {
         type: Schema.Types.ObjectId,
@@ -15,11 +16,10 @@ const distributionSchema = new Schema({
         unique: true,
         default: shortid.generate
     },
-    product: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Product'
+    cart: [{
+        product: {type: Schema.Types.ObjectId, ref: 'Product'},
+        quantity: Number
     }],
-    quantity: String,
     subTotal: String,
     deleteAt : {
         type: Date,
